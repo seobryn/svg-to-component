@@ -2,11 +2,11 @@
   "name": "svgtovue",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "transform:vue": "node . vue"
   },
-  "author": "",
+  "author": "Jose Joya",
   "license": "ISC",
   "dependencies": {
     "jsdom": "^15.2.1"

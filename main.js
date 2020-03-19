@@ -1,48 +1,38 @@
-const fs = require("fs");
-const template = require("./template");
-const DOM = require("jsdom").JSDOM;
+const fs = require('fs');
+const vueTemplate = require('./src/templates/vue');
+const config = require('./props.json');
+
+const frameworkType = process.argv.pop();
+
+console.info(`\x1b[32m[SVG]:\x1b[0m Using ${frameworkType} to transform`);
+
+const frameworks = {
+  vue(files){
+    files.forEach(file=>{
+      if(config.ignoredFiles.indexOf(file) === -1){
+        const fileContent = fs.readFileSync(`${__dirname}/icons/${file}`, {
+          encoding: 'utf8'
+        });
+        if(fileContent){
+          vueTemplate
+            .transform({fileContent, fileName: file.replace(/ +/g, '_').replace(/.svg/g, '')})
+            .then(logInfo=>{
+              if(logInfo){
+                console.info(logInfo);
+              }
+            })
+            .catch(error=>{
+              console.error(`\x1b[31m[SVG]:\x1b[0m An Error Ocurred -> ${error}`);
+            });
+        }
+      }
+    });
+    vueTemplate.save(files);
+  }
+};
 
 fs.readdir(`${__dirname}/icons`, (err, files) => {
   if (!err) {
-    files.forEach(file => {
-      const fileContent = fs.readFileSync(`${__dirname}/icons/${file}`, {
-        encoding: "utf8"
-      });
-      if (fileContent) {
-        const svgFile = new DOM(
-          fileContent
-            .replace(/width\=\"[\d]+\"/, ':width="width"')
-            .replace(/height\=\"[\d]+\"/, ':height="height"')
-        ).window.document.body;
-        let fileName = file.replace(/ +/g, "_").replace(/.svg/g, "");
-        fileName =
-          fileName[0].toUpperCase() + fileName.substr(1, fileName.length);
-        const config = {
-          name: fileName,
-          content: svgFile.innerHTML
-        };
-        const templateText = template(config);
-        fs.writeFileSync(
-          `${__dirname}/components/${config.name}.vue`,
-          templateText
-        );
-        console.log(`${config.name}.vue Created!`);
-      }
-    });
-    GenerateComponentsFile(files);
+    frameworks[frameworkType](files,config);
   }
 });
-
-function GenerateComponentsFile(files) {
-  let componentList = "//componentList \n{";
-  let importStateMents = "";
-  files.forEach(file => {
-    let fileName = file.replace(/ +/g, "_").replace(/.svg/g, "");
-    fileName = fileName[0].toUpperCase() + fileName.substr(1, fileName.length);
-    componentList += `"${fileName}":${fileName},`;
-    importStateMents += `import ${fileName} from './icons/${fileName}.vue';\n`;
-  });
-  componentList += "}";
-  const output = `${importStateMents}\n${componentList}`;
-  fs.writeFileSync(`${__dirname}/components/cmpList.txt`, output);
-}
