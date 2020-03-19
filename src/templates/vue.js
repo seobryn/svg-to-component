@@ -1,5 +1,6 @@
 const DOM = require('jsdom').JSDOM;
 const fs = require('fs');
+const baseDir = `${__dirname}/../../components/vue`;
 
 const api = {
   transform({fileContent, fileName}){
@@ -17,7 +18,7 @@ const api = {
       };
       const templateText = (config);
       fs.writeFileSync(
-        `${__dirname}/../../components/${config.name}.vue`,
+        `${baseDir}/${config.name}.vue`,
         templateText
       );
       return resolve(`\x1b[32m[SVG-VUE]:\x1b[0m ${config.name}.vue Created!`);
@@ -122,7 +123,7 @@ const api = {
     });
     componentList += '}';
     const output = `${importStateMents}\n${componentList}`;
-    fs.writeFileSync(`${__dirname}/../../components/cmpList.txt`, output);
+    fs.writeFileSync(`${baseDir}/cmpList.txt`, output);
   }
 };
 
