@@ -3,7 +3,6 @@ module.exports = function GenerateFile(config) {
   const content = PrepareContent(config.content);
   return `
 <template>
-  <!-- eslint-disable max-len -->
   ${content.template}
 </template>
 <script>
@@ -61,7 +60,9 @@ function fixChildren(content, output) {
           currentItem.setAttribute(":fill", `color[${posibleColor}]`);
         }
         currentItem.removeAttribute("fill");
-      } else if (currentItem.getAttribute("stroke")) {
+      }
+      
+      if (currentItem.getAttribute("stroke")) {
         const posibleColor = output.defaultColor.indexOf(
           currentItem.getAttribute("stroke")
         );
