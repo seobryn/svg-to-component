@@ -9,6 +9,7 @@
   "author": "Jose Joya",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^3.0.0",
     "jsdom": "^15.2.1"
   }
 }

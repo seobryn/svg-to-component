@@ -1,15 +1,17 @@
 const fs = require('fs');
 const vueTemplate = require('./src/templates/vue');
 const config = require('./props.json');
+const Logger = require('./src/Logger');
+const logger =  new Logger();
 
 const frameworkType = process.argv.pop();
 
-console.info(`\x1b[32m[SVG]:\x1b[0m Using ${frameworkType} to transform`);
+logger.error(`Using ${frameworkType} to transform`);
 
 const frameworks = {
-  vue(files){
+  vue(files ,configFile){
     files.forEach(file=>{
-      if(config.ignoredFiles.indexOf(file) === -1){
+      if(configFile.ignoredFiles.indexOf(file) === -1){
         const fileContent = fs.readFileSync(`${__dirname}/icons/${file}`, {
           encoding: 'utf8'
         });
@@ -18,16 +20,16 @@ const frameworks = {
             .transform({fileContent, fileName: file.replace(/ +/g, '_').replace(/.svg/g, '')})
             .then(logInfo=>{
               if(logInfo){
-                console.info(logInfo);
+                logger.done(logInfo);
               }
             })
             .catch(error=>{
-              console.error(`\x1b[31m[SVG]:\x1b[0m An Error Ocurred -> ${error}`);
+              logger.error(error);
             });
         }
       }
     });
-    vueTemplate.save(files);
+    vueTemplate.save(files,configFile);
   }
 };
 

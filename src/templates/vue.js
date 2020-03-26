@@ -21,7 +21,7 @@ const api = {
         `${baseDir}/${config.name}.vue`,
         templateText
       );
-      return resolve(`\x1b[32m[SVG-VUE]:\x1b[0m ${config.name}.vue Created!`);
+      return resolve(`${config.name}.vue Created!`);
     });
   },
   generateTemplate(config){
