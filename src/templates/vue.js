@@ -20,7 +20,7 @@ const api = {
       const templateText = (config);
       fs.writeFileSync(
         `${baseDir}/${config.name}.vue`,
-        templateText
+        templateText.content
       );
       return resolve(`${config.name}.vue Created!`);
     });
