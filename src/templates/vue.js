@@ -17,16 +17,18 @@ const api = {
         name: options.fileName,
         content: svgFile.innerHTML
       };
-      const templateText = (config);
+      const templateText = api.generateTemplate(config);
+
+      fs.mkdirSync(`${baseDir}/${config.name}`, { recursive: true });
       fs.writeFileSync(
-        `${baseDir}/${config.name}.vue`,
-        templateText.content
+        `${baseDir}/${config.name}/index.vue`,
+        templateText
       );
-      return resolve(`${config.name}.vue Created!`);
+      return resolve(`${config.name}/index.vue Created!`);
     });
   },
   generateTemplate (config) {
-    const content = this.prepareContent(config.content);
+    const content = api.prepareContent(config.content);
     return `
 <template>
   ${content.template}
@@ -58,7 +60,7 @@ const api = {
     };
     let content = new DOM(contentFile).window.document.body;
 
-    content = this.fixChildren(content, output);
+    content = api.fixChildren(content, output);
     output.template = content.innerHTML;
 
     return output;
@@ -104,25 +106,21 @@ const api = {
         currentItem.nodeName.toLowerCase() === 'mask' ||
         currentItem.nodeName.toLowerCase() === 'svg'
       ) {
-        currentItem = this.fixChildren(currentItem, output);
+        currentItem = api.fixChildren(currentItem, output);
       }
     }
     return content;
   },
   save (files, config) {
-    let componentList = '{';
     let importStateMents = '';
     files.forEach((file) => {
       if (config.ignoredFiles.indexOf(file) === -1) {
         let fileName = file.replace(/ +/g, '_').replace(/.svg/g, '');
         fileName = fileName[0].toUpperCase() + fileName.substr(1, fileName.length);
-        componentList += `"${fileName}":${fileName},`;
-        importStateMents += `import ${fileName} from './icons/${fileName}.vue';\n`;
+        importStateMents += `export { default as ${fileName} } from './${fileName}/index.vue';\n`;
       }
     });
-    componentList += '}';
-    const output = `${importStateMents}\n${componentList}`;
-    fs.writeFileSync(`${baseDir}/cmpList.txt`, output);
+    fs.writeFileSync(`${baseDir}/index.js`, importStateMents);
   }
 };
 
