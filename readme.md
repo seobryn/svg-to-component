@@ -8,7 +8,7 @@
 
 4. run  ```yarn transform:[framework]``` to generate components folder with all vue components, other Frameworks Coming soon!.
 
-5. when complete you can find out your SVG Components inside __components/vue__ ready to use!.
+5. when complete you can find out your SVG Components inside __components/[framework]__ ready to use!.
 
 ## Frameworks Available:
 
