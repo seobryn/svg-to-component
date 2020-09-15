@@ -1,3 +1,9 @@
 {
-    "ignoredFiles": [".DS_Store"]
+    "ignoredFiles": [
+        ".DS_Store"
+    ],
+    "supportedFrameworks": [
+        "vue",
+        "react"
+    ]
 }

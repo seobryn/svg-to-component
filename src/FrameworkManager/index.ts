@@ -1,11 +1,36 @@
-const fs = require('fs');
-const vueTemplate = require('../templates/vue');
-const reactTemplate = require('../templates/react');
-const Logger = require('../Logger');
+import fs from 'fs';
+import { Logger } from '../Logger/types'
+import { FMConfig, FrameworkType } from './types';
+import { Framework } from '../frameworks/types';
 
-const logger = new Logger();
+export default class FrameworkManager {
+  private logger: Logger;
+  private rules?: FMConfig;
+  private baseDir: string;
 
-const frameworks = {
+  constructor(logger: Logger){
+    this.logger = logger;
+    this.baseDir = process.cwd();
+  }
+
+  configure(rules:FMConfig){
+    this.rules = rules;
+  }
+
+  use(framework: FrameworkType): Framework {
+    const { supportedFrameworks } = this.rules!;
+    if(supportedFrameworks.includes(framework)){
+      this.logger.info(`Using ${framework} to build Icon Components`);
+      return {} as Framework;
+    } else {
+      throw new Error(`${framework} is not supported yet.`)
+    }
+  }
+}
+
+/**
+ * 
+ * const frameworks = {
   vue (files, configFile) {
     logger.info('Creating vue folder');
     if (!fs.existsSync('./components/vue')) {
@@ -61,3 +86,5 @@ const frameworks = {
 };
 
 module.exports = frameworks;
+
+ */
