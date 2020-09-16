@@ -1,4 +1,4 @@
-export type FrameworkType = 'vue'| 'react';
+export type FrameworkType = 'Vue'| 'React';
 
 export interface FMConfig {
     ignoredFiled?: string[];

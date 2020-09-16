@@ -1,15 +1,15 @@
 import fs from 'fs';
-import config from '../props.json';
-import ConsoleLogger from './Logger';
+import config from './props.json';
+import ConsoleLogger from './src/Logger';
 
-import FrameworkManager from './FrameworkManager';
-import { FMConfig, FrameworkType } from './FrameworkManager/types';
+import FrameworkManager from './src/FrameworkManager';
+import { FMConfig, FrameworkType } from './src/FrameworkManager/types';
 
 const logger = new ConsoleLogger();
-const manager = new FrameworkManager(logger);
-manager.configure(config as FMConfig);
+const manager = new FrameworkManager(logger,config as FMConfig);
 
 const frameworkType = process.argv.pop() as FrameworkType;
+
 const framework = manager.use(frameworkType);
 
 try {
