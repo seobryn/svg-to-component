@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom';
 import template from './Templates/vueTemplate.html';
 
 interface PropsType {
-    [key:string]:{ type: string, default:string }
+    [key:string]:{ type: any, default: any,  }
 }
 
 export default class Vue implements Framework {
@@ -62,11 +62,13 @@ export default class Vue implements Framework {
 
         vueTemplate = vueTemplate?.replace(`{{${VUE_STATIC_TAGS.TEMPLATE_HTML}}}`,svgObject.outerHTML);
         vueTemplate = vueTemplate?.replace(`{{${VUE_STATIC_TAGS.COMPONENT_NAME}}}`,filePath.split('/').pop()!.replace('.svg','').replace(' ','_'));
-        vueTemplate = vueTemplate?.replace(`{{${VUE_STATIC_TAGS.PROPS_CONTENT}}}`, JSON.stringify( props, null, 2));
+        const propsJson = JSON.stringify( props, null, 2)
+            .replace(/('|")String('|")/g,'String')
+            .replace(/('|")Array('|")/g,'Array');
+        vueTemplate = vueTemplate?.replace(`{{${VUE_STATIC_TAGS.PROPS_CONTENT}}}`,propsJson );
         
         return vueTemplate;
     }
-
     private processChildNodes(props: PropsType, children?: HTMLCollection){
         if(children){
             for(let i=0; i< children.length; i+=1){
@@ -83,11 +85,25 @@ export default class Vue implements Framework {
                 const attrName = attribute.name;
                 const defaultValue = attribute.value;
                 element.removeAttribute(attrName);
-                element.setAttribute(':'+attrName,attrName);
-                props[attrName] = {
-                    type:'string',
-                    default: defaultValue,
-                };
+                if(attrName === 'fill' || attrName === 'stroke'){
+                    if(!props[attrName]){
+                        props[attrName] = {
+                            type: 'Array',
+                            default: [defaultValue],
+                        };
+                    }
+                    if(!props[attrName].default.includes(defaultValue)){
+                        props[attrName].default.push(defaultValue);
+                    }
+                    element.setAttribute(':'+attrName,`${attrName}[${props[attrName].default.indexOf(defaultValue)}]` );
+                } else {
+                    props[attrName] = {
+                        type: 'String',
+                        default: defaultValue,
+                    }
+                    element.setAttribute(':'+attrName,attrName);
+                }
+                
             }
         },this);
     }
