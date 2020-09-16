@@ -1,9 +1,0 @@
-{
-    "ignoredFiles": [
-        ".DS_Store"
-    ],
-    "supportedFrameworks": [
-        "Vue",
-        "React"
-    ]
-}
