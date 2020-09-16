@@ -1,19 +1,19 @@
 # How to use:
 
-1. run  ```yarn install```
+1. run  ```yarn global add svg-to-component```
 
-2. create __icons__ folder in the project root
+2. create __icons__ folder in your project root
 
 3. Inside __icons__ folder put your SVG images that you want to transform.
 
-4. run  ```yarn transform:[framework]``` to generate components folder with all vue components, other Frameworks Coming soon!.
+4. run  ```svg-transform -f <Framework>``` to generate components folder with all [Vue | React] components.
 
 5. when complete you can find out your SVG Components inside __components/[framework]__ ready to use!.
 
 ## Frameworks Available:
 
-- [X] vue
-- [X] react (in test)
+- [X] Vue
+- [X] React
 
 ## Do you Want to donate? 
 
