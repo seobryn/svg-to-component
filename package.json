@@ -1,5 +1,5 @@
 {
-  "name": "svg-to-component",
+  "name": "@seobryn/svg-to-component",
   "version": "1.0.0",
   "description": "Convert any SVG Image to Some Framework Usable Component",
   "main": "bin/index.js",
