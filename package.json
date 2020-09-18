@@ -27,5 +27,14 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
-  }
+  },
+  "keywords": [
+    "Cli",
+    "SVG",
+    "svg",
+    "transform",
+    "svg-to-component",
+    "vue-svg",
+    "svg-transform"
+  ]
 }
