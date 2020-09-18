@@ -1,13 +1,14 @@
 {
-  "name": "@seobryn/svg-transform",
-  "version": "1.0.0",
+  "name": "@seobryn/svg-to-component",
+  "version": "1.0.2",
   "description": "Convert any SVG Image to Some Framework Usable Component",
   "main": "bin/index.js",
   "bin": {
     "svg-transform": "bin/index.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "install": "npm run build"
   },
   "author": "Jose Joya (https://seobryn.com)",
   "license": "MIT",
