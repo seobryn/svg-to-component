@@ -1,5 +1,5 @@
 {
-  "name": "@seobryn/svg-to-component",
+  "name": "svg-transform",
   "version": "1.0.0",
   "description": "Convert any SVG Image to Some Framework Usable Component",
   "main": "bin/index.js",
@@ -24,5 +24,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
