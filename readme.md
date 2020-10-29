@@ -1,6 +1,6 @@
 # How to use:
 
-1. run  ```yarn global add svg-to-component```
+1. run  ```npm i -g svg-to-component```
 
 2. create __icons__ folder in your project root
 
